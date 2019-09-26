@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
+import { formatDate } from "@angular/common";
+import { CATEGORIES } from '../data/categories';
 
 @Component({
   selector: 'app-new-task',
@@ -16,6 +18,8 @@ export class NewTaskPage implements OnInit {
 
   validations_form: FormGroup;
   image: any;
+  categories = CATEGORIES;
+  category;
 
   constructor(
     private imagePicker: ImagePicker,
@@ -35,20 +39,35 @@ export class NewTaskPage implements OnInit {
     this.image = "./assets/imgs/default_image.jpg";
     this.validations_form = this.formBuilder.group({
       title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      description: new FormControl('', Validators.required),
+      category: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required)
     });
   }
 
   onSubmit(value){
+
+    // Get date
+    const date = Date.now();
+    let formattedDate = formatDate(date, 'short', 'en-US');
+
+    // Get image
+    let image =  `./assets/imgs/${value.title}.jpg`;
+
+
     let data = {
       title: value.title,
       description: value.description,
-      image: this.image
+      image: image,
+      category: value.category,
+      publishedDate: formattedDate,
+      state: 'new',
+      price: value.price
     }
     this.firebaseService.createTask(data)
     .then(
       res => {
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/products"]);
       }
     )
   }

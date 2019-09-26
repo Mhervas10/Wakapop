@@ -17,6 +17,10 @@ export class DetailsPage implements OnInit {
   image: any;
   item: any;
   load: boolean = false;
+  category: string;
+  price: number;
+  publishedDate: string;
+  state: string;
 
   constructor(
     private imagePicker: ImagePicker,
@@ -40,11 +44,18 @@ export class DetailsPage implements OnInit {
      if (data) {
        this.item = data;
        this.image = this.item.image;
+       this.category = this.item.category;
+       this.price = this.item.price;
+       this.publishedDate = this.item.publishedDate;
+       this.state = this.item.state;
      }
     })
     this.validations_form = this.formBuilder.group({
       title: new FormControl(this.item.title, Validators.required),
-      description: new FormControl(this.item.description, Validators.required)
+      description: new FormControl(this.item.description, Validators.required),
+      category: new FormControl(this.item.category, Validators.required),
+      price: new FormControl(this.item.price, Validators.required),
+      state: new FormControl(this.item.state, Validators.required)
     });
   }
 
@@ -52,19 +63,21 @@ export class DetailsPage implements OnInit {
     let data = {
       title: value.title,
       description: value.description,
-      image: this.image
+      image: `./assets/imgs/${value.title}.jpg`,
+      category: value.category,
+      price: value.price,
+      state: value.state
     }
     this.firebaseService.updateTask(this.item.id,data)
     .then(
       res => {
-        this.router.navigate(["/home"]);
+        this.router.navigate(["/products"]);
       }
     )
   }
 
   async delete() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm',
       message: 'Do you want to delete ' + this.item.title + '?',
       buttons: [
         {
@@ -79,7 +92,7 @@ export class DetailsPage implements OnInit {
             this.firebaseService.deleteTask(this.item.id)
             .then(
               res => {
-                this.router.navigate(["/home"]);
+                this.router.navigate(["/products"]);
               },
               err => console.log(err)
             )

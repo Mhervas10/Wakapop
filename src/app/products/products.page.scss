@@ -1,0 +1,45 @@
+.empty-list {
+  font-size: 22px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 40px;
+  color: var(--ion-color-medium);
+}
+
+/* Custom card */
+.sc-ion-card-md-h, .sc-ion-card-ios-h {
+  margin-top: 0;
+  margin-bottom: 0;
+  -webkit-margin-start: 0;
+  margin-inline-start: 0;
+  -webkit-margin-end: 0;
+  margin-inline-end: 0;
+}
+
+ion-card-header{
+  padding-bottom: 5px;
+}
+
+.card-content-ios , card-content-md {
+  padding-top: 0;
+}
+
+.ion-card-custom-title {
+  font-size: 20px;
+}
+
+/* Product */
+.product-price {
+  font-size: 23px;
+  font-weight: 200;
+  color: black;
+  text-align: center;
+}
+
+.background-gray {
+  background: gainsboro;
+}
+
+.background-red {
+  background: lightcoral;
+}

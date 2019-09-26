@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/new-task']">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="products" class="list-mini-content" padding>
+
+  <ion-searchbar
+  mode="ios"
+  showCancelButton="focus"
+  placeholder="Encuentra tu producto"
+  cancelButtonText="Cancelar"
+  animated
+  [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()">
+  </ion-searchbar>
+
+  <!-- <ion-item>
+    <ion-range pin="true"  dualKnobs="true"  min="0" max="200" color="primary"
+    [(ngModel)]="knobValues" >
+      <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+      <ion-icon slot="end" name="sunny"></ion-icon>
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">200</ion-label>
+    </ion-range>
+  </ion-item> -->
+
+  <!-- ****************** -->
+  <!-- Lista de productos -->
+  <!-- ****************** -->
+  <ion-grid *ngIf="products.length > 0 && searchTerm == ''" align-items-start>
+    <ion-row>
+      <ion-col size="6" *ngFor="let item of products">
+        <ion-card [routerLink]="['/details', item.payload.doc.id]"
+        [ngClass]="{'background-gray': item.payload.doc.data().state == 'sold',
+         'background-red':  item.payload.doc.data().state == 'cancelled'}">
+          <img [src]="item.payload.doc.data().image"
+          onError="this.src='./assets/imgs/default_image.jpg';" >
+          <ion-card-header>
+            <ion-card-subtitle>{{item.payload.doc.data().category}}</ion-card-subtitle>
+            <ion-card-title class="ion-card-custom-title">{{item.payload.doc.data().title}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content class="product-price">
+            <!-- {{item.payload.doc.data().description}} -->
+            {{item.payload.doc.data().price}} €
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!-- ********************* -->
+  <!-- Resultados de búsqueda -->
+  <!-- ********************** -->
+  <ion-grid *ngIf="products.length > 0 && searchTerm != '' && filteredItems.length >0" align-items-start>
+    <ion-row>
+      <ion-col size="6" *ngFor="let item of filteredItems">
+        <ion-card [routerLink]="['/details', item.payload.doc.id]"
+        [ngClass]="{'background-gray': item.payload.doc.data().state == 'sold',
+         'background-red':  item.payload.doc.data().state == 'cancelled'}">
+          <img [src]="item.payload.doc.data().image"
+          onError="this.src='./assets/imgs/default_image.jpg';" >
+          <ion-card-header>
+            <ion-card-subtitle>{{item.payload.doc.data().category}}</ion-card-subtitle>
+            <ion-card-title class="ion-card-custom-title">{{item.payload.doc.data().title}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content class="product-price">
+            <!-- {{item.payload.doc.data().description}} -->
+            {{item.payload.doc.data().price}} €
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!-- ************ -->
+  <!-- Placeholders -->
+  <!-- ************ -->
+  <div *ngIf="products.length == 0" class="empty-list">
+    No hay productos disponibles
+  </div>
+
+  <div *ngIf="filteredItems && filteredItems.length == 0" class="empty-list">
+    Ningún resultado de búsqueda
+  </div>
+
+</ion-content>
+
+<ion-footer (click)="logout()">
+  <ion-toolbar color="medium">
+    <ion-title>Log out</ion-title>
+  </ion-toolbar>
+</ion-footer>
