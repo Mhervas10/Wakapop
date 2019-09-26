@@ -36,19 +36,19 @@
   <ion-grid *ngIf="products.length > 0 && searchTerm == ''" align-items-start>
     <ion-row>
       <ion-col size="6" *ngFor="let item of products">
-        <ion-card [routerLink]="['/details', item.payload.doc.id]"
-        [ngClass]="{'background-gray': item.payload.doc.data().state == 'sold',
-         'background-red':  item.payload.doc.data().state == 'cancelled'}">
-          <img [src]="item.payload.doc.data().image"
+        <ion-card [routerLink]="['/details', item.id]"
+        [ngClass]="{'background-gray': item.state == 'sold',
+         'background-red':  item.state == 'cancelled'}">
+          <img [src]="item.image"
           onError="this.src='./assets/imgs/default_image.jpg';" >
           <ion-card-header>
-            <ion-card-subtitle>{{item.payload.doc.data().category}}</ion-card-subtitle>
-            <ion-card-title class="ion-card-custom-title">{{item.payload.doc.data().title}}</ion-card-title>
+            <ion-card-subtitle>{{item.category}}</ion-card-subtitle>
+            <ion-card-title class="ion-card-custom-title">{{item.title}}</ion-card-title>
           </ion-card-header>
 
           <ion-card-content class="product-price">
-            <!-- {{item.payload.doc.data().description}} -->
-            {{item.payload.doc.data().price}} €
+            <!-- {{item.description}} -->
+            {{item.price}} €
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -62,19 +62,19 @@
   <ion-grid *ngIf="products.length > 0 && searchTerm != '' && filteredItems.length >0" align-items-start>
     <ion-row>
       <ion-col size="6" *ngFor="let item of filteredItems">
-        <ion-card [routerLink]="['/details', item.payload.doc.id]"
-        [ngClass]="{'background-gray': item.payload.doc.data().state == 'sold',
-         'background-red':  item.payload.doc.data().state == 'cancelled'}">
-          <img [src]="item.payload.doc.data().image"
+        <ion-card [routerLink]="['/details', item.id]"
+        [ngClass]="{'background-gray': item.state == 'sold',
+         'background-red':  item.state == 'cancelled'}">
+          <img [src]="item.image"
           onError="this.src='./assets/imgs/default_image.jpg';" >
           <ion-card-header>
-            <ion-card-subtitle>{{item.payload.doc.data().category}}</ion-card-subtitle>
-            <ion-card-title class="ion-card-custom-title">{{item.payload.doc.data().title}}</ion-card-title>
+            <ion-card-subtitle>{{item.category}}</ion-card-subtitle>
+            <ion-card-title class="ion-card-custom-title">{{item.title}}</ion-card-title>
           </ion-card-header>
 
           <ion-card-content class="product-price">
-            <!-- {{item.payload.doc.data().description}} -->
-            {{item.payload.doc.data().price}} €
+            <!-- {{item.description}} -->
+            {{item.price}} €
           </ion-card-content>
         </ion-card>
       </ion-col>

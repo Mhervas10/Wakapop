@@ -12,8 +12,7 @@ import { Product } from '../models/product';
 })
 export class ProductsPage implements OnInit {
 
-  /* products: Product[]; */
-  products;
+  products: Product[] = [];
   searchTerm : string = "";
   filteredItems: Product[];
   showing: string = "products";
@@ -45,7 +44,12 @@ export class ProductsPage implements OnInit {
     this.route.data.subscribe(routeData => {
       routeData['data'].subscribe(data => {
         loading.dismiss();
-        this.products = data;
+        // Clean firebase data
+        data.map((currElement, index) => {
+          this.products[index] = data[index].payload.doc.data();
+          this.products[index].id = data[index].payload.doc.id;
+        });
+        console.log("Products loaded in products.page: ", this.products);
       })
     })
   }
