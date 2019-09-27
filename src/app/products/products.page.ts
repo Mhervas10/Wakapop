@@ -48,8 +48,8 @@ export class ProductsPage implements OnInit {
         loading.dismiss();
         // Clean firebase data
         data.map((currElement, index) => {
-          this.products[index] = data[index].payload.doc.data();
-          this.products[index].id = data[index].payload.doc.id;
+          this.products[index] = currElement.payload.doc.data();
+          this.products[index].id = currElement.payload.doc.id;
         });
         console.log("Products loaded in products.page: ", this.products);
       })
