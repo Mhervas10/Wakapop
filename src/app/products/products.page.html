@@ -47,9 +47,19 @@
           </ion-card-header>
 
           <ion-card-content class="product-price">
-            <!-- {{item.description}} -->
             {{item.price}} €
           </ion-card-content>
+
+          <!-- Buttons -->
+          <ion-grid>
+            <ion-row>
+              <ion-col (click)="toggleFavorite(item);$event.stopPropagation()" align-self-end>
+                <ion-icon *ngIf="item.favorite !=true" class="favorite-icon" name="heart-empty"></ion-icon>
+                <ion-icon *ngIf="item.favorite ==true" class="favorite-icon" name="heart"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
         </ion-card>
       </ion-col>
     </ion-row>

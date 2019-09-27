@@ -86,4 +86,13 @@ export class ProductsPage implements OnInit {
     this.router.navigate(["/details"]);
   }
 
+  toggleFavorite(product) {
+    if(product.favorite && product.favorite == true) {
+      this.productsService.removeFavorite(product);
+    }
+    else{
+      this.productsService.addFavorite(product);
+    }
+  }
+
 }
