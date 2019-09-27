@@ -5,6 +5,7 @@ import { LoadingController, ToastController, AlertController } from '@ionic/angu
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsService } from '../services/products.service';
 
 @Component({
   selector: 'app-details',
@@ -31,7 +32,8 @@ export class DetailsPage implements OnInit {
     private webview: WebView,
     private alertCtrl: AlertController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private productsService: ProductsService
   ) { }
 
   ngOnInit() {
@@ -39,17 +41,8 @@ export class DetailsPage implements OnInit {
   }
 
   getData(){
-    this.route.data.subscribe(routeData => {
-     let data = routeData['data'];
-     if (data) {
-       this.item = data;
-       this.image = this.item.image;
-       this.category = this.item.category;
-       this.price = this.item.price;
-       this.publishedDate = this.item.publishedDate;
-       this.state = this.item.state;
-     }
-    })
+    this.item = this.productsService.getSelectedProduct();
+
     this.validations_form = this.formBuilder.group({
       title: new FormControl(this.item.title, Validators.required),
       description: new FormControl(this.item.description, Validators.required),

@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Product } from '../models/product';
+import { ProductsService } from '../services/products.service';
 
 @Component({
   selector: 'app-products',
@@ -26,7 +27,8 @@ export class ProductsPage implements OnInit {
     public loadingCtrl: LoadingController,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private productsService: ProductsService
   ) { }
 
   ngOnInit() {
@@ -74,10 +76,14 @@ export class ProductsPage implements OnInit {
 
   filterItems(searchTerm){
     return this.products.filter((item) => {
-      let title = item.payload.doc.data().title;
+      let title = item.title;
          return title.toLowerCase().includes(searchTerm.toLowerCase());
      });
-
  }
+
+  goToDetail(product){
+    this.productsService.setSelectedProduct(product);
+    this.router.navigate(["/details"]);
+  }
 
 }

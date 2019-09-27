@@ -6,15 +6,11 @@ import { Routes, RouterModule} from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { DetailsPage } from './details.page';
-import { DetailsResolver } from './details.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailsPage,
-    resolve: {
-      data: DetailsResolver
-    }
+    component: DetailsPage
   }
 ];
 
@@ -26,7 +22,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DetailsPage],
-  providers:[DetailsResolver]
+  declarations: [DetailsPage]
 })
 export class DetailsPageModule {}
