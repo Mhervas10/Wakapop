@@ -20,7 +20,7 @@
   placeholder="Encuentra tu producto"
   cancelButtonText="Cancelar"
   animated
-  [(ngModel)]="searchTerm" (ionChange)="setFilteredItems()">
+  [(ngModel)]="searchTerm" (ionChange)="setSearchedItems()">
   </ion-searchbar>
 
   <!-- <ion-item>
@@ -72,9 +72,9 @@
   <!-- ********************* -->
   <!-- Resultados de búsqueda -->
   <!-- ********************** -->
-  <ion-grid *ngIf="products.length > 0 && searchTerm != '' && filteredItems.length >0" align-items-start>
+  <ion-grid *ngIf="products.length > 0 && searchTerm != '' && searchededItems.length >0" align-items-start>
     <ion-row>
-      <ion-col size="6" *ngFor="let item of filteredItems">
+      <ion-col size="6" *ngFor="let item of searchededItems">
         <ion-card (click)="goToDetail(item)"
         [ngClass]="{'background-gray': item.state == 'sold',
          'background-red':  item.state == 'cancelled'}">
@@ -102,7 +102,7 @@
     No hay productos disponibles
   </div>
 
-  <div *ngIf="filteredItems && filteredItems.length == 0" class="empty-list">
+  <div *ngIf="searchededItems && searchededItems.length == 0" class="empty-list">
     Ningún resultado de búsqueda
   </div>
 

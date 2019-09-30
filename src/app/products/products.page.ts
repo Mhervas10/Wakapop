@@ -15,8 +15,10 @@ export class ProductsPage implements OnInit {
 
   products: Product[] = [];
   searchTerm : string = "";
-  filteredItems: Product[];
+  searchededItems: Product[];
   showing: string = "products";
+  form;
+  selectedItems = [];
 
   knobValues: any = {
     upper:0,
@@ -69,17 +71,17 @@ export class ProductsPage implements OnInit {
     })
   }
 
-  setFilteredItems() {
+  setSearchedItems() {
     console.log("Searching term: ", this.searchTerm);
-    this.filteredItems = this.filterItems(this.searchTerm);
+    this.searchededItems = this.searchItems(this.searchTerm);
   }
 
-  filterItems(searchTerm){
+  searchItems(searchTerm){
     return this.products.filter((item) => {
       let title = item.title;
          return title.toLowerCase().includes(searchTerm.toLowerCase());
      });
- }
+  }
 
   goToDetail(product){
     this.productsService.setSelectedProduct(product);
