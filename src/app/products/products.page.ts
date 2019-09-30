@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Product } from '../models/product';
 import { ProductsService } from '../services/products.service';
+import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -17,13 +18,24 @@ export class ProductsPage implements OnInit {
   searchTerm : string = "";
   searchededItems: Product[];
   showing: string = "products";
-  form;
   selectedItems = [];
+  filteredItems = [];
+  status: string = 'products';
 
   knobValues: any = {
     upper:0,
     lower:200
   }
+
+  filters = [
+    {
+      value:"Zapatillas",
+      isChecked:false
+    },{
+      value:"Deportes",
+      isChecked:false
+    }
+  ];
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -74,6 +86,12 @@ export class ProductsPage implements OnInit {
   setSearchedItems() {
     console.log("Searching term: ", this.searchTerm);
     this.searchededItems = this.searchItems(this.searchTerm);
+    if(this.searchededItems.length > 0) {
+      this.status = 'search';
+    }
+    else {
+      this.status = 'products';
+    }
   }
 
   searchItems(searchTerm){
@@ -97,4 +115,32 @@ export class ProductsPage implements OnInit {
     }
   }
 
+  checkboxClicked(filterClicked){
+    console.log("Filters BEFORE toggle: ", this.filters);
+    filterClicked.isChecked = !filterClicked.isChecked;
+    console.log("Filters AFTER toggle: ", this.filters);
+
+    // Get filtered Products
+    this.filteredItems = [];
+    //Search activated checkboxs
+    this.filters.map((filter) => {
+      if(filter.isChecked) {
+        // Add products to filteredItems array
+        let productsFound = this.products.filter((product) => {
+             return product.category.toLowerCase() == filter.value.toLowerCase();
+         });
+         this.filteredItems.push(...productsFound);
+      }
+    });
+    // Update page status
+    console.log(this.filteredItems);
+    if(this.filteredItems.length > 0) {
+      this.status = "filter";
+    }
+    else {
+      this.status = 'products';
+    }
+  }
 }
+
+
